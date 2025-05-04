@@ -3,11 +3,11 @@ def average(sequence):
     Calculates the average of a given sequence of numbers.
 
     This function takes a sequence of numeric values and computes their average.
-    If the given sequence is empty, the function returns None.
+    If the given sequence is empty, the function raises a ValueError.
 
     :param sequence: A sequence of numeric values (e.g., list, tuple).
     :return: The average of the numbers in the sequence if non-empty,
-        otherwise returns None.
+        otherwise raises ValueError.
     """
     if len(sequence) == 0: raise ValueError("Sequence has to be not empty.")
 
@@ -25,8 +25,8 @@ def median(sequence):
     :param sequence: A sequence of numeric values for which the median needs to
         be calculated.
     :type sequence: list[float] | list[int]
-    :return: The median value of the sequence if it is non-empty, otherwise None.
-    :rtype: float | int | None
+    :return: The median value of the sequence if it is non-empty.
+    :rtype: float | int
     """
     length = len(sequence)
     if length == 0: raise ValueError("Sequence has to be not empty.")
@@ -48,8 +48,7 @@ def deviation(sequence):
 
     :param sequence: A list or any iterable of numeric values.
     :return: The sample standard deviation if the sequence has at least two
-        elements. Returns 0 if the sequence contains exactly one element. Returns
-        None if the sequence is empty.
+        elements. Returns 0 if the sequence contains exactly one element. Raises a ValueError if the sequence is empty.
     """
     length = len(sequence)
     avg = average(sequence)
