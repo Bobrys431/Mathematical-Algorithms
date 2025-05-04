@@ -9,7 +9,7 @@ def average(sequence):
     :return: The average of the numbers in the sequence if non-empty,
         otherwise returns None.
     """
-    if len(sequence) == 0: return None
+    if len(sequence) == 0: raise ValueError("Sequence has to be not empty.")
 
     return sum(sequence) / len(sequence)
 
@@ -29,7 +29,7 @@ def median(sequence):
     :rtype: float | int | None
     """
     length = len(sequence)
-    if length == 0: return None
+    if length == 0: raise ValueError("Sequence has to be not empty.")
 
     sequence = sorted(sequence)
     if (length % 2) == 0:
@@ -53,7 +53,7 @@ def deviation(sequence):
     """
     length = len(sequence)
     avg = average(sequence)
-    if length == 0: return None
+    if length == 0: raise ValueError("Sequence has to be not empty.")
     if length == 1: return 0
 
     return (sum((i - avg) ** 2 for i in sequence) / (length - 1)) ** 0.5
