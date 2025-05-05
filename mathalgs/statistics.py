@@ -55,4 +55,4 @@ def deviation(sequence):
     if length == 0: raise ValueError("Sequence has to be not empty.")
     if length == 1: return 0
 
-    return (sum((i - avg) ** 2 for i in sequence) / (length - 1)) ** 0.5
+    return (sum((i - avg) ** 2 for i in sequence) / length) ** 0.5
