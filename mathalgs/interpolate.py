@@ -1,16 +1,21 @@
-def polynomial(xs, ys):
-    """
-    Computes the coefficients of a polynomial that passes through a given set of points
-    using Newton's divided difference method.
+import numpy as np
 
-    :param xs: List of x-coordinates of the points. All x-values must be distinct.
-    :type xs: list[float]
-    :param ys: List of y-coordinates of the points corresponding to the x-values.
-    :type ys: list[float]
-    :return: A list representing the coefficients of the polynomial in increasing order
-        of powers (e.g., [c0, c1, c2, ...] represents c0 + c1*x + c2*x^2 + ...).
-    :rtype: list[float]
-    :raises ValueError: If the lengths of xs and ys do not match.
+def polynomial(xs, ys, interpolating_xs):
+    """
+    Computes interpolated y-values for given x-values using Newton's
+    divided differences polynomial interpolation.
+
+    This function calculates polynomial coefficients using Newton's
+    divided differences method and evaluates the polynomial at the
+    specified x-values for interpolation. It assumes that the input
+    values `xs` and `ys` represent ordered sequential data and will
+    raise an error if their lengths differ.
+
+    :param xs: List of x-coordinates supplied for interpolation calculation
+    :param ys: List of y-coordinates corresponding to `xs`
+    :param interpolating_xs: List of x-coordinates where interpolated y-values
+        will be calculated
+    :return: List of interpolated y-values corresponding to `interpolating_xs`
     """
     if len(xs) != len(ys):
         raise ValueError("A different number of x and y values were given")
@@ -23,18 +28,16 @@ def polynomial(xs, ys):
         for j in range(length - i):
             differences[i][j] = (differences[i - 1][j + 1] - differences[i - 1][j]) / (xs[j + i] - xs[j])
 
-    polynomials = [0 for _ in range(length)]
-    polynomials[0] = differences[0][0]
-    for i in range(1, length):
-        coefficients = [0 for _ in range(length)]
-        coefficients[i] = differences[i][0]
-        for j in range(i-1, -1, -1):
-            for k in range(i, 0, -1):
-                coefficients[k] -= xs[j] * coefficients[k - 1]
-        for k in range(i + 1):
-            polynomials[k] += coefficients[k]
+    interpolating_ys = np.zeros(len(interpolating_xs))
 
-    return polynomials
+    for i in range(len(interpolating_xs)):
+        interpolating_ys[i] = differences[0][0]
+        mult = 1.0
+        for j in range(1, length):
+            mult *= (interpolating_xs[i] - xs[j - 1])
+            interpolating_ys[i] += differences[j][0] * mult
+
+    return interpolating_ys
 
 def spline(xs, ys):
     pass
