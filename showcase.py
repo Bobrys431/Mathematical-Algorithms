@@ -66,16 +66,16 @@ plt.show()
 
 # Prepare data for interpolation
 # Select random unique y value for interpolation
-interpolating_y = np.random.choice(df['y'].unique())
+chosen_y = np.random.choice(df['y'].unique())
 # Get x and F(x,y) values for selected y
-xs = df[df['y'] == interpolating_y]['x'].tolist()
-ys = df[df['y'] == interpolating_y]['f(x,y)'].tolist()
+xs = df[df['y'] == chosen_y]['x'].tolist()
+ys = df[df['y'] == chosen_y]['f(x,y)'].tolist()
 
 
 
 # Create a third plot: Polynomial interpolation
-plt.figure("Polynomial interpolation for y = " + str(interpolating_y))
-plt.title("Polynomial interpolation for y = " + str(interpolating_y))
+plt.figure("Polynomial interpolation for y = " + str(chosen_y))
+plt.title("Polynomial interpolation for y = " + str(chosen_y))
 
 # Generate points for a smooth interpolation curve
 interpolating_xs = np.linspace(min(xs), max(xs), 300)
@@ -95,8 +95,8 @@ plt.show()
 
 
 # Create a fourth plot: Spline interpolation
-plt.figure("Spline interpolation for y = " + str(interpolating_y))
-plt.title("Spline interpolation for y = " + str(interpolating_y))
+plt.figure("Spline interpolation for y = " + str(chosen_y))
+plt.title("Spline interpolation for y = " + str(chosen_y))
 
 # Generate points for a smooth interpolation curve
 interpolating_xs = np.linspace(min(xs), max(xs), 300)
@@ -116,8 +116,8 @@ plt.show()
 
 
 # Create a fifth plot: Comparison of both interpolation methods
-plt.figure("Comparison of spline and polynomial interpolation for y = " + str(interpolating_y))
-plt.title("Comparison of spline and polynomial interpolation for y = " + str(interpolating_y))
+plt.figure("Comparison of spline and polynomial interpolation for y = " + str(chosen_y))
+plt.title("Comparison of spline and polynomial interpolation for y = " + str(chosen_y))
 
 # Generate x values for interpolation
 interpolating_xs = np.linspace(min(xs), max(xs), 300)
@@ -132,6 +132,31 @@ plt.plot(interpolating_xs, interpolating_ys_spline, label="Spline interpolation"
 plt.plot(xs, ys, 'o', label="Original points", markersize=3)
 
 # Add labels and display the plot
+plt.xlabel("x")
+plt.ylabel("F(x,y)")
+plt.legend()
+plt.grid()
+plt.show()
+
+
+
+# Create a sixth plot: Comparison of polynomial approximations with different degrees
+plt.figure("Comparison of approximated functions of different degrees")
+plt.title("Comparison of approximated functions of different degrees")
+
+# Generate x values for approximation extending beyond original data points
+approximating_xs = np.linspace(min(xs) - 3, max(xs) + 3, 400)
+
+# Calculate approximated y values using polynomials of degree 1 and 3
+approximating_ys_first = ma.approximate.polynomial(xs, ys, 1, approximating_xs)
+approximating_ys_third = ma.approximate.polynomial(xs, ys, 3, approximating_xs)
+
+# Plot approximated functions and original data points
+plt.plot(approximating_xs, approximating_ys_first, label="Approximated function with degree 1")
+plt.plot(approximating_xs, approximating_ys_third, label="Approximated function with degree 3")
+plt.plot(xs, ys, 'o', label="Original points", markersize=4)
+
+# Set labels and display the plot
 plt.xlabel("x")
 plt.ylabel("F(x,y)")
 plt.legend()
