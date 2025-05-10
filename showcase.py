@@ -83,7 +83,7 @@ interpolating_ys = ma.interpolate.polynomial(xs, ys, interpolating_xs)
 
 # Plot both interpolated function and original points
 plt.plot(interpolating_xs, interpolating_ys, label="Interpolated function")
-plt.plot(xs, ys, 'o', label="Original points")
+plt.plot(xs, ys, 'o', label="Original points", markersize=4)
 
 # Set labels and display the plot
 plt.xlabel("x")
@@ -104,9 +104,34 @@ interpolating_ys = ma.interpolate.spline(xs, ys, interpolating_xs)
 
 # Plot both interpolated function and original points 
 plt.plot(interpolating_xs, interpolating_ys, label="Interpolated function")
-plt.plot(xs, ys, 'o', label="Original points")
+plt.plot(xs, ys, 'o', label="Original points", markersize=4)
 
 # Set labels and display the plot
+plt.xlabel("x")
+plt.ylabel("F(x,y)")
+plt.legend()
+plt.grid()
+plt.show()
+
+
+
+# Create a fifth plot: Comparison of both interpolation methods
+plt.figure("Comparison of spline and polynomial interpolation for y = " + str(interpolating_y))
+plt.title("Comparison of spline and polynomial interpolation for y = " + str(interpolating_y))
+
+# Generate x values for interpolation
+interpolating_xs = np.linspace(min(xs), max(xs), 300)
+
+# Calculate interpolated y values using both methods
+interpolating_ys_polynomial = ma.interpolate.polynomial(xs, ys, interpolating_xs)
+interpolating_ys_spline = ma.interpolate.spline(xs, ys, interpolating_xs)
+
+# Plot interpolated curves and original points
+plt.plot(interpolating_xs, interpolating_ys_polynomial, label="Polynomial interpolation", linestyle="--")
+plt.plot(interpolating_xs, interpolating_ys_spline, label="Spline interpolation", linestyle="--")
+plt.plot(xs, ys, 'o', label="Original points", markersize=3)
+
+# Add labels and display the plot
 plt.xlabel("x")
 plt.ylabel("F(x,y)")
 plt.legend()
