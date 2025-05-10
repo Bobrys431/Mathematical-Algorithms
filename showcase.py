@@ -32,8 +32,8 @@ plt.show()
 
 
 # Create a second plot: Statistical calculations
-plt.figure("Statistical calculations for F(x,y)")
-plt.title("Statistical calculations for F(x,y)")
+plt.figure("Statistical calculations of F(x,y)")
+plt.title("Statistical calculations of F(x,y)")
 
 # Get unique y values
 ys = df['y'].unique()
@@ -86,8 +86,27 @@ plt.plot(interpolating_xs, interpolating_ys, label="Interpolated function")
 plt.plot(xs, ys, 'o', label="Original points")
 
 # Set labels and display the plot
-plt.xticks(xs)
-plt.yticks(ys)
+plt.xlabel("x")
+plt.ylabel("F(x,y)")
+plt.legend()
+plt.grid()
+plt.show()
+
+
+
+# Create a fourth plot: Spline interpolation
+plt.figure("Spline interpolation for y = " + str(interpolating_y))
+plt.title("Spline interpolation for y = " + str(interpolating_y))
+
+# Generate points for a smooth interpolation curve
+interpolating_xs = np.linspace(min(xs), max(xs), 300)
+interpolating_ys = ma.interpolate.spline(xs, ys, interpolating_xs)
+
+# Plot both interpolated function and original points 
+plt.plot(interpolating_xs, interpolating_ys, label="Interpolated function")
+plt.plot(xs, ys, 'o', label="Original points")
+
+# Set labels and display the plot
 plt.xlabel("x")
 plt.ylabel("F(x,y)")
 plt.legend()
