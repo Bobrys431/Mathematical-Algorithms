@@ -55,7 +55,7 @@ plt.bar(ys, medians, 0.35, color="blue", label="Median")
 plt.bar(ys + 0.35, deviations, 0.35, color="red", label="Standard deviation")
 
 # Set labels and display the plot
-plt.xticks(df['y'].unique())
+plt.xticks(ys)
 plt.xlabel("y")
 plt.ylabel("F(x,y)")
 plt.legend()
@@ -173,6 +173,40 @@ plt.plot(approximating_xs, approximating_ys_third, label="Approximation with deg
 plt.plot(xs, ys, 'o', label="Original points", markersize=4)
 
 # Set labels and display the plot
+plt.xlabel("x")
+plt.ylabel("F(x,y)")
+plt.legend()
+plt.grid()
+plt.show()
+
+
+
+# Create a seventh plot: Integration visualization
+plt.figure("Showing the impact of changing a step value while integrating for y = " + str(chosen_y))
+plt.title("Showing the impact of changing a step value while integrating for y = " + str(chosen_y))
+
+# Calculate integral with low number of points (5)
+less_xs = np.linspace(min(xs), max(xs), 5)
+less_ys = ma.interpolate.polynomial(xs, ys, less_xs)
+less_accuracy_integral = ma.integrate.trapezoidal(less_xs, less_ys)
+
+# Calculate integral with medium number of points (30) 
+medium_xs = np.linspace(min(xs), max(xs), 30)
+medium_ys = ma.interpolate.polynomial(xs, ys, medium_xs)
+medium_accuracy_integral = ma.integrate.trapezoidal(medium_xs, medium_ys)
+
+# Calculate integral with high number of points (300)
+high_xs = np.linspace(min(xs), max(xs), 300)
+high_ys = ma.interpolate.polynomial(xs, ys, high_xs)
+high_accuracy_integral = ma.integrate.trapezoidal(high_xs, high_ys)
+
+# Plot the original function and filled areas representing different integration accuracies
+plt.plot(interpolating_xs, interpolating_ys_polynomial, linewidth=1, label="Original function")
+plt.fill_between(less_xs, less_ys, alpha=0.1, label="Integrate by 5 points: " + str(round(less_accuracy_integral, 2)))
+plt.fill_between(medium_xs, medium_ys, alpha=0.1, label="Integrate by 30 points: " + str(round(medium_accuracy_integral, 2)))
+plt.fill_between(high_xs, high_ys, alpha=0.1, label="Integrate by 300 points: " + str(round(high_accuracy_integral, 2)))
+
+# Set labels, add legend and grid
 plt.xlabel("x")
 plt.ylabel("F(x,y)")
 plt.legend()
