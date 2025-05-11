@@ -215,16 +215,30 @@ plt.show()
 
 
 
-# Create a figure for the derivative plot
-plt.figure("Derivative for y = " + str(chosen_y))
-plt.title("Derivative for y = " + str(chosen_y))
+# Create an eighth plot: Differentiation visualization
+plt.figure("Showing the impact of changing a step value while differentiate for y = " + str(chosen_y))
+plt.title("Showing the impact of changing a step value while differentiate for y = " + str(chosen_y))
 
-# Calculate derivatives using spline interpolation results 
-derivatives = ma.differentiation.derivatives(interpolating_xs, interpolating_ys_spline)
+# Calculate derivatives with low number of points (5)
+less_xs = np.linspace(min(xs), max(xs), 5)
+less_ys = ma.interpolate.spline(xs, ys, less_xs)
+less_accuracy_derivatives = ma.differentiation.derivatives(less_xs, less_ys)
+
+# Calculate derivatives with medium number of points (30)
+medium_xs = np.linspace(min(xs), max(xs), 30)
+medium_ys = ma.interpolate.spline(xs, ys, medium_xs)
+medium_accuracy_derivatives = ma.differentiation.derivatives(medium_xs, medium_ys)
+
+# Calculate derivatives with high number of points (300)
+high_xs = np.linspace(min(xs), max(xs), 300)
+high_ys = ma.interpolate.spline(xs, ys, high_xs)
+high_accuracy_derivatives = ma.differentiation.derivatives(high_xs, high_ys)
 
 # Plot an original function and its derivative
 plt.plot(interpolating_xs, interpolating_ys_spline, label="Function")
-plt.plot(interpolating_xs, derivatives, label="Derivative")
+plt.plot(less_xs, less_accuracy_derivatives, label="Differentiate with 5 points", linestyle="--")
+plt.plot(medium_xs, medium_accuracy_derivatives, label="Differentiate with 30 points", linestyle="--")
+plt.plot(high_xs, high_accuracy_derivatives, label="Differentiate with 300 points", linestyle="--")
 
 # Set labels and display settings
 plt.xlabel("x")
