@@ -141,8 +141,8 @@ plt.show()
 
 
 # Create a sixth plot: Comparison of polynomial approximations with different degrees
-plt.figure("Comparison of approximated functions of different degrees")
-plt.title("Comparison of approximated functions of different degrees")
+plt.figure("Comparison of approximated functions of different degrees for y = " + str(chosen_y))
+plt.title("Comparison of approximated functions of different degrees for y = " + str(chosen_y))
 
 # Generate x values for approximation extending beyond original data points
 approximating_xs = np.linspace(min(xs) - 3, max(xs) + 3, 400)
@@ -151,9 +151,25 @@ approximating_xs = np.linspace(min(xs) - 3, max(xs) + 3, 400)
 approximating_ys_first = ma.approximate.polynomial(xs, ys, 1, approximating_xs)
 approximating_ys_third = ma.approximate.polynomial(xs, ys, 3, approximating_xs)
 
+# Calculate R-squared (coefficient of determination) for first-degree approximation
+approximating_ys_first_metrics = ma.approximate.polynomial(xs, ys, 1, xs)
+numerator = 0
+denominator = 0
+for i in range(len(ys)):
+    numerator += (ys[i] - approximating_ys_first_metrics[i]) ** 2
+    denominator += (ys[i] - ma.statistics.average(ys)) ** 2
+error_determination_coefficient = 1 - (numerator / denominator)
+
+# Calculate RMSE (Root Mean Square Error) for third-degree approximation
+approximating_ys_third_metrics = ma.approximate.polynomial(xs, ys, 3, xs)
+error_root_mean_square = 0
+for i in range(len(ys)):
+    error_root_mean_square += (ys[i] - approximating_ys_third_metrics[i]) ** 2
+error_root_mean_square = np.sqrt(error_root_mean_square / len(ys))
+
 # Plot approximated functions and original data points
-plt.plot(approximating_xs, approximating_ys_first, label="Approximated function with degree 1")
-plt.plot(approximating_xs, approximating_ys_third, label="Approximated function with degree 3")
+plt.plot(approximating_xs, approximating_ys_first, label="Approximation with degree 1\nError(R^2): " + str(round(error_determination_coefficient,2)))
+plt.plot(approximating_xs, approximating_ys_third, label="Approximation with degree 3\nError(RMSE): " + str(round(error_root_mean_square,2)))
 plt.plot(xs, ys, 'o', label="Original points", markersize=4)
 
 # Set labels and display the plot
