@@ -1,4 +1,4 @@
-from mathalgs import statistics as st
+import mathalgs.statistics as st
 import numpy as np
 
 def polynomial(xs, ys, interpolating_xs):
@@ -58,7 +58,7 @@ def spline(xs, ys, interpolating_xs):
     """
     if len(xs) != len(ys):
         raise ValueError("A different number of x and y values were given")
-    if st.deviation(np.diff(xs)) > 0.01:
+    if st.deviation(np.diff(xs)) > 0.001:
         raise ValueError("Given x values are not equally spaced")
 
     diff = st.average(np.diff(xs))
