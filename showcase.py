@@ -212,3 +212,23 @@ plt.ylabel("F(x,y)")
 plt.legend()
 plt.grid()
 plt.show()
+
+
+
+# Create a figure for the derivative plot
+plt.figure("Derivative for y = " + str(chosen_y))
+plt.title("Derivative for y = " + str(chosen_y))
+
+# Calculate derivatives using spline interpolation results 
+derivatives = ma.differentiation.derivatives(interpolating_xs, interpolating_ys_spline)
+
+# Plot an original function and its derivative
+plt.plot(interpolating_xs, interpolating_ys_spline, label="Function")
+plt.plot(interpolating_xs, derivatives, label="Derivative")
+
+# Set labels and display settings
+plt.xlabel("x")
+plt.ylabel("F(x,y)")
+plt.legend()
+plt.grid()
+plt.show()
