@@ -222,17 +222,17 @@ plt.title("Showing the impact of changing a step value while differentiate for y
 # Calculate derivatives with low number of points (5)
 less_xs = np.linspace(min(xs), max(xs), 5)
 less_ys = ma.interpolate.spline(xs, ys, less_xs)
-less_accuracy_derivatives = ma.differentiation.derivatives(less_xs, less_ys)
+less_accuracy_derivatives = ma.differentiation.differentiate(less_xs, less_ys)
 
 # Calculate derivatives with medium number of points (30)
 medium_xs = np.linspace(min(xs), max(xs), 30)
 medium_ys = ma.interpolate.spline(xs, ys, medium_xs)
-medium_accuracy_derivatives = ma.differentiation.derivatives(medium_xs, medium_ys)
+medium_accuracy_derivatives = ma.differentiation.differentiate(medium_xs, medium_ys)
 
 # Calculate derivatives with high number of points (300)
 high_xs = np.linspace(min(xs), max(xs), 300)
 high_ys = ma.interpolate.spline(xs, ys, high_xs)
-high_accuracy_derivatives = ma.differentiation.derivatives(high_xs, high_ys)
+high_accuracy_derivatives = ma.differentiation.differentiate(high_xs, high_ys)
 
 # Plot an original function and its derivative
 plt.plot(interpolating_xs, interpolating_ys_spline, label="Function")
@@ -241,6 +241,43 @@ plt.plot(medium_xs, medium_accuracy_derivatives, label="Differentiate with 30 po
 plt.plot(high_xs, high_accuracy_derivatives, label="Differentiate with 300 points", linestyle="--")
 
 # Set labels and display settings
+plt.xlabel("x")
+plt.ylabel("F(x,y)")
+plt.legend()
+plt.grid()
+plt.show()
+
+
+
+# Create a nine plot: Monotonicity analysis
+plt.figure("Monotonicity for y = " + str(chosen_y))
+plt.title("Monotonicity for y = " + str(chosen_y))
+
+# Use high-resolution x and y values for monotonicity analysis
+monotonic_xs = high_xs
+monotonic_ys = high_ys
+monotonicity = ma.differentiation.monotonicity(monotonic_xs, monotonic_ys, derivatives=high_accuracy_derivatives)
+
+# Helper function to format interval segments for legend labels
+def format_segments(segments):
+    return ", ".join([f"[{round(monotonic_xs[k[0]], 2)}; {round(monotonic_xs[k[1] - 1], 2)})" for k in segments])
+
+# Plot increasing segments in green
+for up in monotonicity['increases']:
+    label = f"Increasing: {format_segments(monotonicity['increases'])}" if up == monotonicity['increases'][0] else ""
+    plt.plot(monotonic_xs[up[0]:up[1]], monotonic_ys[up[0]:up[1]], color="green", label=label)
+
+# Plot decreasing segments in red  
+for down in monotonicity['decreases']:
+    label = f"Decreasing: {format_segments(monotonicity['decreases'])}" if down == monotonicity['decreases'][0] else ""
+    plt.plot(monotonic_xs[down[0]:down[1]], monotonic_ys[down[0]:down[1]], color="red", label=label)
+
+# Plot steady (constant) segments in blue
+for flat in monotonicity['steady']:
+    label = f"Steady: {format_segments(monotonicity['steady'])}" if flat == monotonicity['steady'][0] else ""
+    plt.plot(monotonic_xs[flat[0]:flat[1]], monotonic_ys[flat[0]:flat[1]], color="blue", label=label)
+
+# Add labels and display the plot
 plt.xlabel("x")
 plt.ylabel("F(x,y)")
 plt.legend()
