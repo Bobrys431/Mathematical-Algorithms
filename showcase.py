@@ -78,7 +78,7 @@ plt.figure(f"Polynomial interpolation for y = {chosen_y}")
 plt.title(f"Polynomial interpolation for y = {chosen_y}")
 
 # Generate points for a smooth interpolation curve
-interpolating_xs = np.linspace(min(xs), max(xs), 300)
+interpolating_xs = np.linspace(min(xs), max(xs), 1000)
 interpolating_ys = ma.interpolate.polynomial(xs, ys, interpolating_xs)
 
 # Plot both interpolated function and original points
@@ -99,7 +99,7 @@ plt.figure(f"Spline interpolation for y = {chosen_y}")
 plt.title(f"Spline interpolation for y = {chosen_y}")
 
 # Generate points for a smooth interpolation curve
-interpolating_xs = np.linspace(min(xs), max(xs), 300)
+interpolating_xs = np.linspace(min(xs), max(xs), 1000)
 interpolating_ys = ma.interpolate.spline(xs, ys, interpolating_xs)
 
 # Plot both interpolated function and original points 
@@ -120,7 +120,7 @@ plt.figure(f"Comparison of spline and polynomial interpolation for y = {chosen_y
 plt.title(f"Comparison of spline and polynomial interpolation for y = {chosen_y}")
 
 # Generate x values for interpolation
-interpolating_xs = np.linspace(min(xs), max(xs), 300)
+interpolating_xs = np.linspace(min(xs), max(xs), 1000)
 
 # Calculate interpolated y values using both methods
 interpolating_ys_polynomial = ma.interpolate.polynomial(xs, ys, interpolating_xs)
@@ -145,7 +145,7 @@ plt.figure(f"Comparison of approximated functions of different degrees for y = {
 plt.title(f"Comparison of approximated functions of different degrees for y = {chosen_y}")
 
 # Generate x values for approximation extending beyond original data points
-approximating_xs = np.linspace(min(xs) - 3, max(xs) + 3, 400)
+approximating_xs = np.linspace(min(xs) - 3, max(xs) + 3, 1400)
 
 # Calculate approximated y values using polynomials of degree 1 and 3
 approximating_ys_first = ma.approximate.polynomial(xs, ys, 1, approximating_xs)
@@ -195,8 +195,8 @@ medium_xs = np.linspace(min(xs), max(xs), 30)
 medium_ys = ma.interpolate.polynomial(xs, ys, medium_xs)
 medium_accuracy_integral = ma.integrate.trapezoidal(medium_xs, medium_ys)
 
-# Calculate integral with high number of points (300)
-high_xs = np.linspace(min(xs), max(xs), 300)
+# Calculate integral with high number of points (1000)
+high_xs = np.linspace(min(xs), max(xs), 1000)
 high_ys = ma.interpolate.polynomial(xs, ys, high_xs)
 high_accuracy_integral = ma.integrate.trapezoidal(high_xs, high_ys)
 
@@ -204,7 +204,7 @@ high_accuracy_integral = ma.integrate.trapezoidal(high_xs, high_ys)
 plt.plot(interpolating_xs, interpolating_ys_polynomial, linewidth=1, label="Original function")
 plt.fill_between(less_xs, less_ys, alpha=0.1, label=f"Integrate by 5 points: {round(less_accuracy_integral, 2)}")
 plt.fill_between(medium_xs, medium_ys, alpha=0.1, label=f"Integrate by 30 points: {round(medium_accuracy_integral, 2)}")
-plt.fill_between(high_xs, high_ys, alpha=0.1, label=f"Integrate by 300 points: {round(high_accuracy_integral, 2)}")
+plt.fill_between(high_xs, high_ys, alpha=0.1, label=f"Integrate by 1000 points: {round(high_accuracy_integral, 2)}")
 
 # Set labels, add legend and grid
 plt.xlabel("x")
@@ -229,8 +229,8 @@ medium_xs = np.linspace(min(xs), max(xs), 30)
 medium_ys = ma.interpolate.spline(xs, ys, medium_xs)
 medium_accuracy_derivatives = ma.differentiation.differentiate(medium_xs, medium_ys)
 
-# Calculate derivatives with high number of points (300)
-high_xs = np.linspace(min(xs), max(xs), 300)
+# Calculate derivatives with high number of points (1000)
+high_xs = np.linspace(min(xs), max(xs), 1000)
 high_ys = ma.interpolate.spline(xs, ys, high_xs)
 high_accuracy_derivatives = ma.differentiation.differentiate(high_xs, high_ys)
 
@@ -238,7 +238,7 @@ high_accuracy_derivatives = ma.differentiation.differentiate(high_xs, high_ys)
 plt.plot(interpolating_xs, interpolating_ys_spline, label="Function")
 plt.plot(less_xs, less_accuracy_derivatives, label="Differentiate with 5 points", linestyle="--")
 plt.plot(medium_xs, medium_accuracy_derivatives, label="Differentiate with 30 points", linestyle="--")
-plt.plot(high_xs, high_accuracy_derivatives, label="Differentiate with 300 points", linestyle="--")
+plt.plot(high_xs, high_accuracy_derivatives, label="Differentiate with 1000 points", linestyle="--")
 
 # Set labels and display settings
 plt.xlabel("x")
