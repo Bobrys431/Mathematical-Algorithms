@@ -21,7 +21,7 @@ plt.title("Chart F(x,y) for every y")
 
 # Plot F(x,y) for each unique y value
 for y, subdf in df.groupby('y'):
-    plt.plot(subdf['x'], subdf['f(x,y)'], label="y = " + str(y))
+    plt.plot(subdf['x'], subdf['f(x,y)'], label=f"y = {y}")
 
 # Set labels and display the plot
 plt.xlabel("x")
@@ -74,8 +74,8 @@ ys = df[df['y'] == chosen_y]['f(x,y)'].tolist()
 
 
 # Create a third plot: Polynomial interpolation
-plt.figure("Polynomial interpolation for y = " + str(chosen_y))
-plt.title("Polynomial interpolation for y = " + str(chosen_y))
+plt.figure(f"Polynomial interpolation for y = {chosen_y}")
+plt.title(f"Polynomial interpolation for y = {chosen_y}")
 
 # Generate points for a smooth interpolation curve
 interpolating_xs = np.linspace(min(xs), max(xs), 300)
@@ -95,8 +95,8 @@ plt.show()
 
 
 # Create a fourth plot: Spline interpolation
-plt.figure("Spline interpolation for y = " + str(chosen_y))
-plt.title("Spline interpolation for y = " + str(chosen_y))
+plt.figure(f"Spline interpolation for y = {chosen_y}")
+plt.title(f"Spline interpolation for y = {chosen_y}")
 
 # Generate points for a smooth interpolation curve
 interpolating_xs = np.linspace(min(xs), max(xs), 300)
@@ -116,8 +116,8 @@ plt.show()
 
 
 # Create a fifth plot: Comparison of both interpolation methods
-plt.figure("Comparison of spline and polynomial interpolation for y = " + str(chosen_y))
-plt.title("Comparison of spline and polynomial interpolation for y = " + str(chosen_y))
+plt.figure(f"Comparison of spline and polynomial interpolation for y = {chosen_y}")
+plt.title(f"Comparison of spline and polynomial interpolation for y = {chosen_y}")
 
 # Generate x values for interpolation
 interpolating_xs = np.linspace(min(xs), max(xs), 300)
@@ -141,8 +141,8 @@ plt.show()
 
 
 # Create a sixth plot: Comparison of polynomial approximations with different degrees
-plt.figure("Comparison of approximated functions of different degrees for y = " + str(chosen_y))
-plt.title("Comparison of approximated functions of different degrees for y = " + str(chosen_y))
+plt.figure(f"Comparison of approximated functions of different degrees for y = {chosen_y}")
+plt.title(f"Comparison of approximated functions of different degrees for y = {chosen_y}")
 
 # Generate x values for approximation extending beyond original data points
 approximating_xs = np.linspace(min(xs) - 3, max(xs) + 3, 400)
@@ -168,8 +168,8 @@ for i in range(len(ys)):
 error_root_mean_square = np.sqrt(error_root_mean_square / len(ys))
 
 # Plot approximated functions and original data points
-plt.plot(approximating_xs, approximating_ys_first, label="Approximation with degree 1\nError(R^2): " + str(round(error_determination_coefficient,2)))
-plt.plot(approximating_xs, approximating_ys_third, label="Approximation with degree 3\nError(RMSE): " + str(round(error_root_mean_square,2)))
+plt.plot(approximating_xs, approximating_ys_first, label=f"Approximation with degree 1\nError(R^2): {round(error_determination_coefficient,2)}")
+plt.plot(approximating_xs, approximating_ys_third, label=f"Approximation with degree 3\nError(RMSE): {round(error_root_mean_square,2)}")
 plt.plot(xs, ys, 'o', label="Original points", markersize=4)
 
 # Set labels and display the plot
@@ -182,8 +182,8 @@ plt.show()
 
 
 # Create a seventh plot: Integration visualization
-plt.figure("Showing the impact of changing a step value while integrating for y = " + str(chosen_y))
-plt.title("Showing the impact of changing a step value while integrating for y = " + str(chosen_y))
+plt.figure(f"Showing the impact of changing a step value while integrating for y = {chosen_y}")
+plt.title(f"Showing the impact of changing a step value while integrating for y = {chosen_y}")
 
 # Calculate integral with low number of points (5)
 less_xs = np.linspace(min(xs), max(xs), 5)
@@ -202,9 +202,9 @@ high_accuracy_integral = ma.integrate.trapezoidal(high_xs, high_ys)
 
 # Plot the original function and filled areas representing different integration accuracies
 plt.plot(interpolating_xs, interpolating_ys_polynomial, linewidth=1, label="Original function")
-plt.fill_between(less_xs, less_ys, alpha=0.1, label="Integrate by 5 points: " + str(round(less_accuracy_integral, 2)))
-plt.fill_between(medium_xs, medium_ys, alpha=0.1, label="Integrate by 30 points: " + str(round(medium_accuracy_integral, 2)))
-plt.fill_between(high_xs, high_ys, alpha=0.1, label="Integrate by 300 points: " + str(round(high_accuracy_integral, 2)))
+plt.fill_between(less_xs, less_ys, alpha=0.1, label=f"Integrate by 5 points: {round(less_accuracy_integral, 2)}")
+plt.fill_between(medium_xs, medium_ys, alpha=0.1, label=f"Integrate by 30 points: {round(medium_accuracy_integral, 2)}")
+plt.fill_between(high_xs, high_ys, alpha=0.1, label=f"Integrate by 300 points: {round(high_accuracy_integral, 2)}")
 
 # Set labels, add legend and grid
 plt.xlabel("x")
@@ -216,8 +216,8 @@ plt.show()
 
 
 # Create an eighth plot: Differentiation visualization
-plt.figure("Showing the impact of changing a step value while differentiate for y = " + str(chosen_y))
-plt.title("Showing the impact of changing a step value while differentiate for y = " + str(chosen_y))
+plt.figure(f"Showing the impact of changing a step value while differentiate for y = {chosen_y}")
+plt.title(f"Showing the impact of changing a step value while differentiate for y = {chosen_y}")
 
 # Calculate derivatives with low number of points (5)
 less_xs = np.linspace(min(xs), max(xs), 5)
@@ -250,8 +250,8 @@ plt.show()
 
 
 # Create a nine plot: Monotonicity analysis
-plt.figure("Monotonicity for y = " + str(chosen_y))
-plt.title("Monotonicity for y = " + str(chosen_y))
+plt.figure(f"Monotonicity for y = {chosen_y}")
+plt.title(f"Monotonicity for y = {chosen_y}")
 
 # Use high-resolution x and y values for monotonicity analysis
 monotonic_xs = high_xs
