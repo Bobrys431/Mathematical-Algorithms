@@ -5,4 +5,5 @@ from .interpolate import polynomial
 from .interpolate import spline
 from .approximate import polynomial
 from .integrate import trapezoidal
-from .differentiation import derivatives
+from .differentiation import differentiate
+from .differentiation import monotonicity

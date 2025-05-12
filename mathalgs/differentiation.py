@@ -1,8 +1,7 @@
 import numpy as np
-
 import mathalgs.statistics as st
 
-def derivatives(xs, ys, degree=1):
+def differentiate(xs, ys, degree=1):
     """
     Calculates the first or second numerical derivative of a set of y-values
     with respect to corresponding x-values. The function uses numerical
@@ -48,3 +47,53 @@ def derivatives(xs, ys, degree=1):
         raise ValueError("There are only first and second derivative able to be calculated")
 
     return result_derivatives
+
+def monotonicity(xs, ys, derivatives=None):
+    """
+    Determines the monotonicity of a given set of data points by analyzing their derivatives.
+    Calculates whether the function represented by the data points is increasing, decreasing,
+    or steady over specific segments of the input range and organizes the results by monotonicity type.
+
+    :param xs: A list of x-values representing the independent variable.
+    :type xs: list
+    :param ys: A list of y-values corresponding to the x-values, representing the dependent variable.
+    :type ys: list
+    :param derivatives: Optional. A list of pre-computed derivative values for the given points.
+        If not provided, the derivatives will be calculated from the input data.
+    :type derivatives: list, optional
+    :return: A dictionary containing three keys: "increases", "decreases", and "steady". Each key maps
+        to a list of tuples indicating the start and end indices for contiguous segments of the input
+        data where the function is increasing, decreasing, or steady, respectively.
+    :rtype: dict
+    """
+    if derivatives is None:
+        derivatives = differentiate(xs, ys)
+    if len(xs) != len(ys) != len(derivatives):
+        raise ValueError("A different number of x, y and derivative values were given")
+
+    result = dict()
+    result["increases"] = []
+    result["decreases"] = []
+    result["steady"] = []
+
+    def get_state(_derivative):
+        if _derivative > 0:
+            return "increases"
+        elif _derivative < 0:
+            return "decreases"
+        else:
+            return "steady"
+
+    state = get_state(derivatives[0])
+    segment_start_index = 0
+
+    for segment_end_index, derivative in enumerate(derivatives):
+        if get_state(derivative) == state:
+            continue
+
+        result[state].append((segment_start_index, segment_end_index))
+        segment_start_index = segment_end_index - 1
+        state = get_state(derivative)
+    result[state].append((segment_start_index, len(xs)))
+
+    return result
