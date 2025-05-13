@@ -253,29 +253,41 @@ plt.show()
 plt.figure(f"Monotonicity for y = {chosen_y}")
 plt.title(f"Monotonicity for y = {chosen_y}")
 
-# Use high-resolution x and y values for monotonicity analysis
+# Set up variables for monotonicity analysis
 monotonic_xs = high_xs
 monotonic_ys = high_ys
-monotonicity = ma.differentiation.monotonicity(monotonic_xs, monotonic_ys, derivatives=high_accuracy_derivatives)
 
-# Helper function to format interval segments for legend labels
+# Helper function to format segment ranges for legend labels
 def format_segments(segments):
     return ", ".join([f"[{round(monotonic_xs[k[0]], 2)}; {round(monotonic_xs[k[1] - 1], 2)})" for k in segments])
 
-# Plot increasing segments in green
-for up in monotonicity['increases']:
-    label = f"Increasing: {format_segments(monotonicity['increases'])}" if up == monotonicity['increases'][0] else ""
+# Get monotonicity information for the original function
+monotonicity_function = ma.differentiation.monotonicity(monotonic_xs, monotonic_ys, derivatives=high_accuracy_derivatives)
+
+# Plot segments of the original function based on monotonicity
+for up in monotonicity_function['increases']:
+    label = f"Increasing F(x,y): {format_segments(monotonicity_function['increases'])}" if up == monotonicity_function['increases'][0] else ""
     plt.plot(monotonic_xs[up[0]:up[1]], monotonic_ys[up[0]:up[1]], color="green", label=label)
-
-# Plot decreasing segments in red  
-for down in monotonicity['decreases']:
-    label = f"Decreasing: {format_segments(monotonicity['decreases'])}" if down == monotonicity['decreases'][0] else ""
+for down in monotonicity_function['decreases']:
+    label = f"Decreasing F(x,y): {format_segments(monotonicity_function['decreases'])}" if down == monotonicity_function['decreases'][0] else ""
     plt.plot(monotonic_xs[down[0]:down[1]], monotonic_ys[down[0]:down[1]], color="red", label=label)
-
-# Plot steady (constant) segments in blue
-for flat in monotonicity['steady']:
-    label = f"Steady: {format_segments(monotonicity['steady'])}" if flat == monotonicity['steady'][0] else ""
+for flat in monotonicity_function['steady']:
+    label = f"Steady F(x,y): {format_segments(monotonicity_function['steady'])}" if flat == monotonicity_function['steady'][0] else ""
     plt.plot(monotonic_xs[flat[0]:flat[1]], monotonic_ys[flat[0]:flat[1]], color="blue", label=label)
+
+# Get monotonicity information for the derivative function
+monotonicity_derivatives = ma.differentiation.monotonicity(monotonic_xs, high_accuracy_derivatives)
+
+# Plot segments of the derivative function based on monotonicity
+for up in monotonicity_derivatives['increases']:
+    label = f"Increasing F'(x,y): {format_segments(monotonicity_derivatives['increases'])}" if up == monotonicity_derivatives['increases'][0] else ""
+    plt.plot(monotonic_xs[up[0]:up[1]], high_accuracy_derivatives[up[0]:up[1]], color="green", linestyle="-.", label=label)
+for down in monotonicity_derivatives['decreases']:
+    label = f"Decreasing F'(x,y): {format_segments(monotonicity_derivatives['decreases'])}" if down == monotonicity_derivatives['decreases'][0] else ""
+    plt.plot(monotonic_xs[down[0]:down[1]], high_accuracy_derivatives[down[0]:down[1]], color="red", linestyle="-.", label=label)
+for flat in monotonicity_derivatives['steady']:
+    label = f"Steady F'(x,y): {format_segments(monotonicity_derivatives['steady'])}" if flat == monotonicity_derivatives['steady'][0] else ""
+    plt.plot(monotonic_xs[flat[0]:flat[1]], high_accuracy_derivatives[flat[0]:flat[1]], color="blue", linestyle="-.", label=label)
 
 # Add labels and display the plot
 plt.xlabel("x")
